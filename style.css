@@ -1,0 +1,1353 @@
+/* ==========================================================================
+   Bhumi's Birthday Website - Premium Design System & Aesthetic CSS Stylesheet
+   ========================================================================== */
+
+/* --- 1. CORE DESIGN SYSTEM & VARIABLES --- */
+:root {
+    /* Color Palette */
+    --deep-indigo: #0b0813;
+    --dark-violet: #151126;
+    --mid-lavender: #231b3c;
+    --rose-gold: #e2a5a5;
+    --champagne: #ecd3b6;
+    --pure-gold: #ffd700;
+    --neon-pink: #ff6eb4;
+    --soft-white: #f5f3f7;
+    --text-muted: #c9c5d3;
+    
+    /* Transparent Glassmorphism Settings */
+    --glass-bg: rgba(21, 17, 38, 0.55);
+    --glass-border: rgba(236, 211, 182, 0.15);
+    --glass-shadow: rgba(0, 0, 0, 0.4);
+    --glass-blur: blur(16px);
+    
+    /* Layout & Styling Values */
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-handwritten: 'Great Vibes', cursive;
+}
+
+/* --- 2. GLOBAL RESET & BASE STYLING --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--deep-indigo);
+    color: var(--soft-white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--deep-indigo);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--mid-lavender);
+    border-radius: 4px;
+    border: 2px solid var(--deep-indigo);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--rose-gold);
+}
+
+/* Base Headings & Text */
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+}
+
+p {
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* Stars Canvas (Covers screen, behind elements) */
+#stars-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* --- 3. WAX-SEALED ENVELOPE (HERO OVERLAY) --- */
+.envelope-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, var(--dark-violet) 0%, var(--deep-indigo) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.envelope-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    perspective: 1000px;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 380px;
+    height: 250px;
+    background-color: #5a1e2f; /* Deep Burgundy Envelope Color */
+    border-radius: 6px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+/* Envelope Flap (Top triangle) */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 190px solid transparent;
+    border-right: 190px solid transparent;
+    border-top: 130px solid #6b2438; /* Slightly lighter shade */
+    transform-origin: top;
+    z-index: 30;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Envelope Pocket (Bottom & side boundaries) */
+.envelope-pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 190px solid #4a1927;
+    border-right: 190px solid #4a1927;
+    border-bottom: 135px solid #521b2b;
+    border-radius: 0 0 6px 6px;
+    z-index: 20;
+}
+
+/* The Letter Card inside the Envelope */
+.letter {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    width: 340px;
+    height: 220px;
+    background: #fdfaf6;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding: 25px;
+    box-sizing: border-box;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+}
+
+.letter-text {
+    font-family: var(--font-heading);
+    color: #4a3434;
+    text-align: center;
+}
+
+.letter-text h3 {
+    font-family: var(--font-handwritten);
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: #5a1e2f;
+}
+
+.letter-text p {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #554848;
+    margin-bottom: 8px;
+}
+
+.letter-text .signature {
+    font-family: var(--font-handwritten);
+    font-size: 1.8rem;
+    color: #5a1e2f;
+    margin-top: 5px;
+}
+
+/* Wax Seal Button holding it together */
+.wax-seal {
+    position: absolute;
+    top: 110px;
+    left: calc(50% - 25px);
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #e94b62 0%, #aa1428 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    z-index: 40;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s var(--transition-smooth);
+    animation: floating-seal 2s ease-in-out infinite;
+}
+
+.wax-seal:hover {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.seal-inner {
+    width: 36px;
+    height: 36px;
+    border: 2px dashed rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.seal-hint {
+    font-family: var(--font-body);
+    color: var(--champagne);
+    font-size: 0.95rem;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    animation: pulse 1.8s infinite ease-in-out;
+}
+
+/* Envelope animations during execution */
+.open-flap {
+    transform: rotateX(180deg);
+    z-index: 5 !important;
+}
+
+.lift-letter {
+    transform: translateY(-130px) scale(1.05);
+    z-index: 35 !important;
+}
+
+.fade-envelope {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- 4. MAIN CONTENT CONTAINER --- */
+.main-content {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.main-content.revealed {
+    opacity: 1;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- 5. RETRO FLOATING MUSIC PLAYER --- */
+.audio-player-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 300px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 10px 30px var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: var(--transition-smooth);
+}
+
+.audio-player-container:hover {
+    border-color: rgba(236, 211, 182, 0.3);
+    box-shadow: 0 15px 40px rgba(236, 211, 182, 0.08);
+}
+
+.vinyl-wrapper {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.vinyl-disk {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #222 30%, #050505 70%);
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease;
+}
+
+.vinyl-label {
+    width: 20px;
+    height: 20px;
+    background-color: var(--rose-gold);
+    border-radius: 50%;
+    color: var(--deep-indigo);
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tonearm needle pointing onto record */
+.tonearm {
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    width: 25px;
+    height: 35px;
+    background: transparent;
+    border-right: 3px solid #ccc;
+    border-top: 3px solid #ccc;
+    border-radius: 0 8px 0 0;
+    transform-origin: top right;
+    transform: rotate(-25deg);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 10;
+}
+
+.tonearm::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -3px;
+    width: 7px;
+    height: 10px;
+    background-color: #888;
+    transform: rotate(45deg);
+}
+
+/* Active Spinning Class */
+.spinning {
+    animation: spin 10s linear infinite;
+}
+
+.arm-on {
+    transform: rotate(8deg);
+}
+
+.track-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.track-title {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--champagne);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.track-artist {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.player-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-btn {
+    background: rgba(236, 211, 182, 0.15);
+    border: none;
+    outline: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--soft-white);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+
+.control-btn:hover {
+    background: var(--rose-gold);
+    color: var(--deep-indigo);
+    transform: scale(1.1);
+}
+
+.volume-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 0.6;
+    transition: var(--transition-smooth);
+}
+
+.audio-player-container:hover .volume-slider-container {
+    opacity: 1;
+}
+
+.volume-icon {
+    font-size: 0.65rem;
+}
+
+.volume-slider {
+    width: 45px;
+    height: 3px;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    border-radius: 2px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--champagne);
+    cursor: pointer;
+}
+
+/* --- 6. HERO SECTION --- */
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+}
+
+/* Background soft ambient glowing orbs */
+.glowing-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+    z-index: -1;
+    animation: pulse 8s ease-in-out infinite alternate;
+}
+
+.bg-orb-1 {
+    top: 15%;
+    left: 10%;
+    width: 350px;
+    height: 350px;
+    background-color: var(--rose-gold);
+}
+
+.bg-orb-2 {
+    bottom: 20%;
+    right: 15%;
+    width: 400px;
+    height: 400px;
+    background-color: var(--neon-pink);
+    animation-delay: -3s;
+}
+
+.hero-text-container {
+    max-width: 800px;
+    background: rgba(11, 8, 19, 0.4);
+    padding: 50px 30px;
+    border-radius: 30px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.pre-title {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    color: var(--rose-gold);
+    display: block;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.main-title {
+    font-size: clamp(3rem, 7vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: var(--soft-white);
+}
+
+.glowing-name {
+    color: transparent;
+    background: linear-gradient(to right, var(--champagne), var(--rose-gold));
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-family: var(--font-heading);
+    position: relative;
+    text-shadow: 0 0 40px rgba(236, 211, 182, 0.35);
+}
+
+.hero-subtitle {
+    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+}
+
+.scroll-down-btn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--champagne);
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.scroll-down-btn i {
+    font-size: 1.2rem;
+    animation: float 2s infinite ease-in-out;
+}
+
+.scroll-down-btn:hover {
+    color: var(--rose-gold);
+    transform: translateY(3px);
+}
+
+/* --- 7. SECTION HEADER COMPONENT --- */
+.section-header {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.section-subtitle {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--rose-gold);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    color: var(--soft-white);
+    font-weight: 700;
+}
+
+.accent-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--rose-gold), var(--champagne));
+    margin: 20px auto 0 auto;
+    border-radius: 2px;
+}
+
+/* --- 8. MEMORIES LANE (POLAROID DECK) --- */
+.memories-section {
+    padding: 100px 5vw;
+    background-color: rgba(21, 17, 38, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    position: relative;
+    z-index: 1;
+}
+
+.polaroid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+/* Polaroid Card Layout */
+.polaroid-card {
+    background-color: #ffffff;
+    padding: 16px 16px 24px 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    border-radius: 2px;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    position: relative;
+    
+    /* Random tilts assigned based on index in JS or inline values */
+    transform: rotate(calc(((var(--card-index) * 37) % 10 - 5) * 1deg));
+}
+
+.polaroid-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 100%);
+    pointer-events: none;
+}
+
+.polaroid-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 1px solid #e2e2e2;
+}
+
+.polaroid-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.polaroid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(21, 17, 38, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.zoom-icon {
+    font-size: 1.8rem;
+    color: var(--soft-white);
+    background: rgba(236, 211, 182, 0.3);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: scale(0.8);
+    transition: var(--transition-smooth);
+}
+
+/* Hover States for Polaroid */
+.polaroid-card:hover {
+    transform: translateY(-12px) rotate(0deg) scale(1.05) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.polaroid-card:hover img {
+    transform: scale(1.08);
+}
+
+.polaroid-card:hover .polaroid-overlay {
+    opacity: 1;
+}
+
+.polaroid-card:hover .zoom-icon {
+    transform: scale(1);
+}
+
+.polaroid-caption {
+    padding-top: 18px;
+    text-align: center;
+    color: #2b2b2b;
+}
+
+.polaroid-caption h4 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.polaroid-caption p {
+    font-family: var(--font-handwritten);
+    font-size: 1.45rem;
+    color: #665b5b;
+}
+
+.swap-instruction {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.85rem;
+    opacity: 0.55;
+}
+
+/* --- 9. WISH JAR (INTERACTIVE STARS JAR) --- */
+.wishes-section {
+    padding: 100px 5vw;
+    position: relative;
+    z-index: 1;
+}
+
+.wish-jar-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.jar-card-instructions {
+    text-align: center;
+    max-width: 600px;
+}
+
+.jar-card-instructions p {
+    font-size: 1.05rem;
+}
+
+.interactive-jar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 60px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Glass Jar CSS rendering */
+.glass-jar {
+    position: relative;
+    width: 250px;
+    height: 380px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px 40px 100px 100px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 20px 40px rgba(255, 255, 255, 0.15), inset -20px -20px 40px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.glass-jar:hover {
+    box-shadow: 0 35px 80px rgba(236, 211, 182, 0.08), inset 0 20px 40px rgba(255, 255, 255, 0.2), inset -20px -20px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.jar-lid {
+    position: absolute;
+    top: -24px;
+    left: calc(50% - 60px);
+    width: 120px;
+    height: 25px;
+    background: linear-gradient(to right, #8a5a36, #a67047, #8a5a36); /* Cork style */
+    border-radius: 8px 8px 4px 4px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 5;
+}
+
+.jar-neck {
+    position: absolute;
+    top: -2px;
+    left: calc(50% - 50px);
+    width: 100px;
+    height: 30px;
+    background: linear-gradient(to right, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+    border-left: 2px solid rgba(255,255,255,0.25);
+    border-right: 2px solid rgba(255,255,255,0.25);
+    border-bottom: 2px solid rgba(255,255,255,0.15);
+    border-radius: 0 0 10px 10px;
+    z-index: 4;
+}
+
+.jar-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Glowing Jar Stars */
+.floating-jar-star {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    color: var(--champagne);
+    font-size: 1.6rem;
+    text-shadow: 0 0 15px var(--pure-gold), 0 0 25px var(--champagne);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    animation: floating-wish 4s ease-in-out infinite alternate;
+    animation-delay: var(----d);
+    z-index: 10;
+}
+
+.floating-jar-star:hover {
+    transform: scale(1.4);
+    color: var(--pure-gold);
+    text-shadow: 0 0 25px var(--pure-gold), 0 0 40px var(--neon-pink);
+}
+
+.jar-glow {
+    position: absolute;
+    bottom: 20px;
+    left: calc(50% - 70px);
+    width: 140px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(236, 211, 182, 0.15) 0%, rgba(236, 211, 182, 0) 70%);
+    border-radius: 50%;
+    filter: blur(15px);
+    pointer-events: none;
+}
+
+/* Glass Display Box for Wishe card details */
+.glass-panel {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 15px 35px var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 24px;
+}
+
+.wish-display-card {
+    width: 380px;
+    min-height: 250px;
+    padding: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-color: rgba(236, 211, 182, 0.12);
+    transition: var(--transition-smooth);
+}
+
+.wish-display-card:hover {
+    border-color: rgba(236, 211, 182, 0.25);
+    box-shadow: 0 20px 45px rgba(236, 211, 182, 0.05);
+}
+
+.wish-card-default {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.wish-icon-sparkle {
+    font-size: 2.2rem;
+    color: var(--rose-gold);
+    text-shadow: 0 0 10px rgba(226, 165, 165, 0.5);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.wish-card-default h3 {
+    font-size: 1.25rem;
+    color: var(--champagne);
+}
+
+.wish-card-content {
+    animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#wish-card-title {
+    font-size: 1.6rem;
+    color: var(--champagne);
+    border-bottom: 1px dashed rgba(236, 211, 182, 0.2);
+    padding-bottom: 10px;
+}
+
+#wish-card-text {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--soft-white);
+}
+
+.wish-card-sign {
+    font-family: var(--font-handwritten);
+    font-size: 1.8rem;
+    color: var(--rose-gold);
+    align-self: flex-end;
+    margin-top: 10px;
+}
+
+/* --- 10. VIRTUAL CAKE SECTION --- */
+.cake-section {
+    padding: 100px 5vw;
+    background-color: rgba(21, 17, 38, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    position: relative;
+    z-index: 1;
+}
+
+.cake-container {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    text-align: center;
+}
+
+/* Virtual CSS Cake Model */
+.cake-visual {
+    position: relative;
+    width: 250px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.cake-stand {
+    width: 280px;
+    height: 16px;
+    background: linear-gradient(to right, #cfcfcf, #ececec, #cfcfcf);
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.cake-stand::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: calc(50% - 30px);
+    width: 60px;
+    height: 20px;
+    background: linear-gradient(to right, #b5b5b5, #d9d9d9, #b5b5b5);
+    border-radius: 0 0 10px 10px;
+}
+
+/* Cake Layer Blocks */
+.cake-layer {
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    box-shadow: inset 0 5px 10px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cake-layer-bottom {
+    width: 230px;
+    height: 70px;
+    background: linear-gradient(to right, #5c3a21, #805333, #5c3a21); /* Chocolate bottom */
+    margin-bottom: 12px; /* stand spacing */
+    z-index: 1;
+}
+
+.cake-layer-middle {
+    width: 180px;
+    height: 55px;
+    background: linear-gradient(to right, #c78393, #e5a4b4, #c78393); /* Strawberry mid */
+    margin-bottom: 0px;
+    z-index: 2;
+    border-bottom: 4px solid #5c3a21;
+}
+
+.cake-layer-top {
+    width: 130px;
+    height: 45px;
+    background: linear-gradient(to right, #dfc3aa, #eddccb, #dfc3aa); /* Vanilla top */
+    z-index: 3;
+    border-bottom: 4px solid #c78393;
+}
+
+/* Drip frosting overlay details */
+.cake-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 14px;
+    border-radius: 15px 15px 0 0;
+}
+
+.cake-layer-bottom::before {
+    background-color: rgba(236, 211, 182, 0.85); /* vanilla drip */
+    border-radius: 15px 15px 0 0;
+}
+
+.cake-layer-middle::before {
+    background-color: #633f25; /* chocolate drip */
+}
+
+.cake-layer-top::before {
+    background-color: #d18d9d; /* strawberry drip */
+}
+
+/* Candles Layout */
+.candles-wrapper {
+    position: absolute;
+    top: 5px;
+    width: 100px;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    z-index: 10;
+}
+
+.candle {
+    position: relative;
+    width: 8px;
+    height: 45px;
+}
+
+#candle-1 { transform: translateY(0px); }
+#candle-2 { transform: translateY(-5px); }
+#candle-3 { transform: translateY(0px); }
+
+.candle-stick {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, var(--rose-gold), var(--champagne), var(--rose-gold));
+    border-radius: 4px 4px 0 0;
+}
+
+.flame {
+    position: absolute;
+    top: -15px;
+    left: calc(50% - 6px);
+    width: 12px;
+    height: 16px;
+    background: radial-gradient(circle at bottom, var(--pure-gold) 20%, var(--rose-gold) 60%, transparent 100%);
+    border-radius: 50% 50% 20% 20%;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 110, 180, 0.4);
+    transform-origin: bottom center;
+    animation: flicker 1.2s ease-in-out infinite alternate;
+    transition: transform 0.4s ease, opacity 0.5s ease;
+}
+
+/* Extinguished Candle puff of smoke */
+.smoke-puff {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: rise-smoke 1.5s ease-out forwards;
+    pointer-events: none;
+}
+
+.extinguished {
+    transform: scale(0);
+    opacity: 0;
+}
+
+/* Controls */
+.cake-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.mic-status {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.premium-btn {
+    background: linear-gradient(135deg, var(--rose-gold) 0%, var(--champagne) 100%);
+    border: none;
+    outline: none;
+    color: var(--deep-indigo);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    padding: 14px 28px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(226, 165, 165, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.premium-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(226, 165, 165, 0.4);
+}
+
+.premium-btn:active {
+    transform: translateY(-1px);
+}
+
+.helper-text {
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+/* Congratulatory Celebration Card */
+.celebration-box {
+    border-top: 1px dashed rgba(236, 211, 182, 0.2);
+    padding-top: 35px;
+    animation: fadeInSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.celebration-box h3 {
+    font-size: 1.8rem;
+    color: var(--champagne);
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(236, 211, 182, 0.2);
+}
+
+.celebration-box p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--soft-white);
+}
+
+/* --- 11. 3D POLAROID LIGHTBOX (MODAL) --- */
+.lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(7, 5, 13, 0.92);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.lightbox-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.lightbox-close:hover {
+    color: var(--rose-gold);
+    transform: rotate(90deg);
+}
+
+.lightbox-content-wrapper {
+    background-color: #ffffff;
+    padding: 20px 20px 30px 20px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    max-width: 90%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    animation: zoomInLight 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.lightbox-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+.lightbox-caption {
+    padding-top: 25px;
+    text-align: center;
+    color: #2b2b2b;
+}
+
+.lightbox-caption h4 {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.lightbox-caption p {
+    font-family: var(--font-handwritten);
+    font-size: 1.7rem;
+    color: #5b5050;
+}
+
+/* --- 12. FOOTER --- */
+.site-footer {
+    padding: 60px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.site-footer p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.site-footer .copyright {
+    font-size: 0.8rem;
+    opacity: 0.4;
+    margin-top: 10px;
+}
+
+/* --- 13. KEYFRAMES & MICRO-ANIMATIONS --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.03); }
+}
+
+@keyframes floating-seal {
+    0%, 100% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3); }
+    50% { box-shadow: 0 8px 18px rgba(170, 20, 40, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+}
+
+@keyframes floating-wish {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-10px) scale(1.08); }
+}
+
+@keyframes flicker {
+    0%, 100% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+    50% { transform: scale(1.15) rotate(2deg); opacity: 1; }
+}
+
+@keyframes rise-smoke {
+    0% { transform: translateY(0) scale(1); opacity: 0.7; }
+    100% { transform: translateY(-40px) scale(2.2); opacity: 0; }
+}
+
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomInLight {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* --- 14. RESPONSIVENESS AND MOBILE FIXES --- */
+@media (max-width: 768px) {
+    .envelope-wrapper {
+        width: 320px;
+        height: 210px;
+    }
+    .envelope-flap {
+        border-left-width: 160px;
+        border-right-width: 160px;
+        border-top-width: 110px;
+    }
+    .envelope-pocket {
+        border-left-width: 160px;
+        border-right-width: 160px;
+        border-bottom-width: 112px;
+    }
+    .letter {
+        width: 280px;
+        height: 185px;
+        left: 20px;
+        padding: 15px;
+    }
+    .letter-text h3 { font-size: 1.8rem; }
+    .letter-text p { font-size: 0.75rem; line-height: 1.4; }
+    .letter-text .signature { font-size: 1.4rem; }
+    .wax-seal { top: 90px; left: calc(50% - 25px); }
+    
+    .audio-player-container {
+        width: calc(100% - 30px);
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+        border-radius: 16px;
+    }
+    
+    .hero-text-container {
+        padding: 30px 15px;
+    }
+    
+    .polaroid-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 30px;
+    }
+    
+    .interactive-jar-wrapper {
+        gap: 40px;
+    }
+    
+    .wish-display-card {
+        width: 100%;
+        min-height: 220px;
+        padding: 25px;
+    }
+}

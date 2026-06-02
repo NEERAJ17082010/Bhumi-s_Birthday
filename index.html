@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Bhumi ✨</title>
+
+    <!-- SEO Optimization -->
+    <meta name="description"
+        content="A beautiful, interactive birthday digital keepsake designed with love, memories, and wishes for Bhumi.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+    <!-- Fonts: Google Fonts (Outfit for sleek text, Playfair Display for headers, and Great Vibes for elegant notes) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons: Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Stars Canvas Background (Floating Parallax Particles) -->
+    <canvas id="stars-canvas"></canvas>
+
+    <!-- 1. WAX-SEALED ENVELOPE (HERO ENTRY SECTION) -->
+    <div id="envelope-overlay" class="envelope-overlay">
+        <div class="envelope-container">
+            <div class="envelope-wrapper">
+                <div class="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-pocket"></div>
+                    <div class="letter">
+                        <div class="letter-text">
+                            <h3>Dear Bhumi,</h3>
+                            <p>Yesterday was a beautiful day, because it marks the birth of someone incredibly special.
+                                Someone who brings warmth, laughter, and light into every life she touches.</p>
+                            <p>Here is a little digital box of memories, wishes, and magic created for you.</p>
+                            <p class="signature">With love & warmth ✨</p>
+                        </div>
+                    </div>
+                    <!-- Wax Seal button -->
+                    <div class="wax-seal" id="wax-seal-btn">
+                        <div class="seal-inner">B</div>
+                    </div>
+                </div>
+            </div>
+            <div class="seal-hint">Click the wax seal to open your birthday card</div>
+        </div>
+    </div>
+
+    <!-- MAIN KEETS CONTAINER (hidden initially, fades in) -->
+    <div id="main-content" class="main-content hidden">
+
+        <!-- FLOATING AUDIO PLAYER (RETRO VINYL STYLE) -->
+        <div class="audio-player-container" id="music-player">
+            <div class="vinyl-wrapper">
+                <div class="vinyl-disk" id="vinyl-disk">
+                    <div class="vinyl-label">✨</div>
+                </div>
+                <div class="tonearm" id="tonearm"></div>
+            </div>
+            <div class="track-details">
+                <span class="track-title">Golden Hour</span>
+                <span class="track-artist">Aesthetic Lofi</span>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn" id="play-pause-btn" aria-label="Play/Pause Music">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="volume-slider-container">
+                    <i class="fas fa-volume-down volume-icon"></i>
+                    <input type="range" min="0" max="1" step="0.1" value="0.5" id="volume-slider" class="volume-slider"
+                        aria-label="Volume">
+                </div>
+            </div>
+            <!-- Audio Tag (high quality ambient aesthetic lofi mp3) -->
+            <audio id="bg-audio" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <!-- 2. HERO HEADER SECTION -->
+        <header class="hero-section" id="hero">
+            <div class="glowing-orb bg-orb-1"></div>
+            <div class="glowing-orb bg-orb-2"></div>
+
+            <div class="hero-text-container">
+                <span class="pre-title">Wishing you the happiest day</span>
+                <h1 class="main-title">Happy Birthday, <span class="glowing-name">Bhumi</span></h1>
+                <p class="hero-subtitle">May your day be filled with as much light, joy, and beauty as you bring to the
+                    world every single day.</p>
+                <a href="#memories" class="scroll-down-btn">
+                    <span>Explore Your Wishes</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- 3. MEMORIES LANE (POLAROID GALLERY) -->
+        <section class="memories-section" id="memories">
+            <div class="section-header">
+                <span class="section-subtitle">A Look Back at the Warmth</span>
+                <h2 class="section-title">Memory Lane</h2>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="polaroid-grid">
+                <!-- Polaroid 1 -->
+                <div class="polaroid-card" style="--card-index: 1;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/images/photo1.png" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <span class="zoom-icon"><i class="fas fa-expand-arrows-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <h4>The Brightest Smile</h4>
+                        <p>Lighting up the world effortlessly.</p>
+                    </div>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div class="polaroid-card" style="--card-index: 2;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/images/photo2.png" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <span class="zoom-icon"><i class="fas fa-expand-arrows-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                    </div>
+                </div>
+
+                <!-- Polaroid 3 -->
+                <div class="polaroid-card" style="--card-index: 3;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/images/photo3.png" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <span class="zoom-icon"><i class="fas fa-expand-arrows-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <h4>Miss classical dancer</h4>
+                    </div>
+                </div>
+
+                <!-- Polaroid 4 -->
+                <div class="polaroid-card" style="--card-index: 4;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/images/photo4.png" alt="Golden Glow" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <span class="zoom-icon"><i class="fas fa-expand-arrows-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <h4>Sparks of Laughter</h4>
+                        <p>Pure joy captured in frame.</p>
+                    </div>
+                </div>
+
+                <!-- Polaroid 5 -->
+                <div class="polaroid-card" style="--card-index: 5;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/images/photo5.png" alt="Dreaming High" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <span class="zoom-icon"><i class="fas fa-expand-arrows-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <h4>Dreamy Horizons</h4>
+                        <p>Wishing you the stars and beyond.</p>
+                    </div>
+                </div>
+
+                <!-- Polaroid 6 -->
+                <div class="polaroid-card" style="--card-index: 6;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="assets/images/photo6.png" alt="Sunsets & Hopes" loading="lazy">
+                        <div class="polaroid-overlay">
+                            <span class="zoom-icon"><i class="fas fa-expand-arrows-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <h4>Beautiful Journey</h4>
+                        <p>The best is yet to unfold.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="swap-instruction"><i class="fas fa-info-circle"></i> These pictures are aesthetic placeholders. I
+                will explain to your friend how they can replace them with your actual photos!</p>
+        </section>
+
+        <!-- 4. THE WISH JAR (INTERACTIVE STARS SECTION) -->
+        <section class="wishes-section" id="wishes">
+            <div class="section-header">
+                <span class="section-subtitle">Catch a Floating Wish</span>
+                <h2 class="section-title">The Glowing Wish Jar</h2>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="wish-jar-container">
+                <div class="jar-card-instructions">
+                    <p>There are stars floating inside the magical jar. Click on any star to release it and read the
+                        warm birthday wish hidden inside!</p>
+                </div>
+
+                <div class="interactive-jar-wrapper">
+                    <!-- Glass Jar Graphic Container -->
+                    <div class="glass-jar" id="glass-jar">
+                        <div class="jar-lid"></div>
+                        <div class="jar-neck"></div>
+                        <div class="jar-body">
+                            <!-- Floating Star Anchors (created dynamically or placed here) -->
+                            <div class="floating-jar-star" data-wish="0" style="--x: 20%; --y: 35%; --d: 0s;"><i
+                                    class="fas fa-star"></i></div>
+                            <div class="floating-jar-star" data-wish="1" style="--x: 70%; --y: 40%; --d: 1.5s;"><i
+                                    class="fas fa-star"></i></div>
+                            <div class="floating-jar-star" data-wish="2" style="--x: 45%; --y: 20%; --d: 0.8s;"><i
+                                    class="fas fa-star"></i></div>
+                            <div class="floating-jar-star" data-wish="3" style="--x: 30%; --y: 65%; --d: 2.2s;"><i
+                                    class="fas fa-star"></i></div>
+                            <div class="floating-jar-star" data-wish="4" style="--x: 65%; --y: 70%; --d: 1.1s;"><i
+                                    class="fas fa-star"></i></div>
+                            <div class="jar-glow"></div>
+                        </div>
+                    </div>
+
+                    <!-- Wish Card Display Box -->
+                    <div class="wish-display-card glass-panel" id="wish-display-card">
+                        <div class="wish-card-default">
+                            <i class="fas fa-sparkles wish-icon-sparkle"></i>
+                            <h3>Select a star inside the jar...</h3>
+                            <p>Each star holds a heartfelt wish just for you.</p>
+                        </div>
+                        <div class="wish-card-content hidden" id="wish-card-content">
+                            <h3 id="wish-card-title">Wish Title</h3>
+                            <p id="wish-card-text">Wish Text</p>
+                            <span class="wish-card-sign">— A special thought for you ✨</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. INTERACTIVE VIRTUAL CAKE SECTION -->
+        <section class="cake-section" id="cake">
+            <div class="section-header">
+                <span class="section-subtitle">Make a Wish</span>
+                <h2 class="section-title">Blow the Candles</h2>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="cake-container glass-panel">
+                <!-- Virtual Interactive Cake CSS -->
+                <div class="cake-visual">
+                    <div class="cake-stand"></div>
+                    <div class="cake-layer cake-layer-bottom"></div>
+                    <div class="cake-layer cake-layer-middle"></div>
+                    <div class="cake-layer cake-layer-top"></div>
+                    <!-- Candles -->
+                    <div class="candles-wrapper">
+                        <div class="candle" id="candle-1">
+                            <div class="candle-stick"></div>
+                            <div class="flame"></div>
+                        </div>
+                        <div class="candle" id="candle-2">
+                            <div class="candle-stick"></div>
+                            <div class="flame"></div>
+                        </div>
+                        <div class="candle" id="candle-3">
+                            <div class="candle-stick"></div>
+                            <div class="flame"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cake-controls">
+                    <div class="mic-status" id="mic-status-msg">
+                        <p><i class="fas fa-microphone-slash"></i> Microphone is off. Click the candles to blow them
+                            out, or enable microphone access below!</p>
+                    </div>
+                    <button class="premium-btn" id="mic-enable-btn">
+                        <i class="fas fa-microphone"></i> Enable Mic to Blow out Candles
+                    </button>
+                    <p class="helper-text">(Clicking directly on the candles also works beautifully!)</p>
+                </div>
+
+                <!-- Celebratory Congratulatory Box (hidden initially) -->
+                <div class="celebration-box hidden" id="celebration-box">
+                    <h3>Happy Belated Birthday, Bhumi! 🎉</h3>
+                    <p>May your silent wishes travel high and turn into beautiful realities. May no other (also the
+                        present snakaes) nvr find you nd hurt u the way they did now. Here's to a year of bright
+                        laughter, peace, happiness, and unforgettable moments.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <p>Made with absolute care & creativity for a wonderful friend ✨</p>
+            <p class="copyright">&copy; 2026. Happy Birthday, Bhumi.</p>
+        </footer>
+    </div>
+
+    <!-- 3D POLAROID LIGHTBOX (DYNAMIC MODAL) -->
+    <div id="polaroid-lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <div class="lightbox-content-wrapper">
+            <img class="lightbox-img" id="lightbox-img" src="" alt="Expanded View">
+            <div class="lightbox-caption" id="lightbox-caption">
+                <h4 id="lightbox-title">Caption Title</h4>
+                <p id="lightbox-text">Caption Text</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+
+</html>
